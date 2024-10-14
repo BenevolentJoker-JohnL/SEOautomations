@@ -1,0 +1,106 @@
+Installation and Setup Guide for YouTube2Reddit.py
+
+This script is designed to monitor YouTube live streams and automatically post announcements to Reddit. Additionally, it offers donation options to support the creator. Below are the steps to install, configure, and run the script.
+1. Requirements
+
+    Python 3.x
+    Flask
+    PRAW (Python Reddit API Wrapper)
+    Google API Client
+    Colorama for colorful terminal output
+    dotenv for managing environment variables
+
+2. Installing Dependencies
+
+Make sure you have Python 3 installed, then install the required dependencies by running the following command:
+
+bash
+
+pip install flask praw google-api-python-client colorama python-dotenv
+
+This will install:
+
+    Flask: A micro web framework used for Reddit OAuth.
+    PRAW: A Python library for the Reddit API.
+    Google API Client: To interact with YouTube's API.
+    Colorama: For terminal colors.
+    dotenv: To manage environment variables from a .env file.
+
+3. Configuring Environment Variables
+
+You need a .env file to store sensitive API keys and configuration values. Create a .env file in the same directory as the script and add the following variables:
+
+bash
+
+# YouTube API Key
+YOUTUBE_API_KEY=your_youtube_api_key_here
+
+# Reddit API credentials
+REDDIT_CLIENT_ID=your_reddit_client_id_here
+REDDIT_CLIENT_SECRET=your_reddit_client_secret_here
+REDDIT_USER_AGENT=your_reddit_user_agent_here
+
+# YouTube Channel ID to monitor
+CHANNEL_ID=your_youtube_channel_id_here
+
+# Subreddit to cross-post to
+SUBREDDIT_NAME=your_subreddit_name_here
+
+How to get the required API keys:
+
+    YouTube API Key: Follow this guide to create a YouTube API key from the Google Cloud Console.
+    Reddit API Credentials: Follow this guide to create an application on Reddit and obtain your client_id, client_secret, and user_agent.
+
+4. How the Script Works
+
+This script is split into several functions that monitor YouTube for live streams and cross-post announcements to Reddit. Here’s a breakdown:
+
+    Display Donation Addresses:
+    On startup, the script displays donation addresses for various cryptocurrencies, offering users a way to support the creator.
+
+    YouTube API Setup:
+    The script uses YouTube's API to check the specified channel (CHANNEL_ID) for new live streams. It looks for live events and fetches the stream's title, video ID, and thumbnail.
+
+    Reddit API Setup:
+    Using the praw library, the script handles Reddit OAuth via Flask. It authenticates with Reddit using credentials stored in the .env file and posts announcements to a specific subreddit.
+
+    Monitor YouTube and Post to Reddit:
+    The monitor_and_post() function periodically checks the YouTube channel for new live streams. If a new live stream is detected, it posts an announcement on Reddit with the video title and link.
+
+    OAuth Callback for Reddit:
+    The script uses Flask to handle Reddit's OAuth authentication. When the user authenticates, Reddit redirects them to the /callback route to complete the OAuth flow.
+
+    Concurrency:
+    The script runs both the Flask web server (for Reddit authentication) and the YouTube monitoring function in separate threads, ensuring both tasks are handled concurrently.
+
+5. Running the Script
+
+    Start Flask and YouTube Monitoring: Run the script using the command below. Flask will listen on port 7865, and YouTube monitoring will begin:
+
+    bash
+
+    python your_script_name.py
+
+    You should see the donation addresses printed in the console, and the YouTube monitoring process will begin. If a new live stream is detected, the script will post to Reddit automatically.
+
+    Access Reddit OAuth: Open a browser and visit http://localhost:7865/ to trigger the Reddit OAuth flow. You’ll be redirected to Reddit's authorization page, where you can grant permissions to your app. Once authenticated, the script will have access to post announcements to Reddit.
+
+6. Key Functions
+
+    display_donation_addresses(): Displays crypto addresses for donations at script startup.
+    check_new_livestream(): Queries YouTube's API to check for live streams on the specified channel.
+    cross_post_to_reddit(): Posts a link to the live stream on the specified subreddit.
+    monitor_and_post(): Continuously checks for new live streams and posts to Reddit if one is found.
+
+7. Customizing the Script
+
+You can adjust the following to fit your needs:
+
+    Sleep Interval: The monitor_and_post() function checks YouTube every 300 seconds (5 minutes). You can modify this value by changing the sleep_interval parameter.
+    Cross-posting Behavior: Customize the message posted to Reddit by modifying the format_announcement() function.
+
+8. Troubleshooting
+
+    Missing Environment Variables: Ensure all necessary variables are set in the .env file. The script will exit with an error if any of the required variables are missing.
+    YouTube API Quota: YouTube's API has usage quotas. If you're frequently checking for live streams, be mindful of the API limits.
+    Reddit Authentication: If you're unable to authenticate with Reddit, ensure your app credentials (client_id, client_secret, and redirect_uri) are correctly configured.
