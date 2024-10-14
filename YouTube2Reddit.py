@@ -16,7 +16,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 # Display donation addresses once when the app starts
 def display_donation_addresses():
     logging.info("Displaying donation addresses...")
-    print(Fore.RED + "Welcome to Dominion SEO Crossbridge created by The Joker for Miniverse + Seniorage Circus: Pyreswap. If you would like to support the original creator of this script, you may send donations via crypto to the following addresses:")
+    print(Fore.RED + "Welcome to YouTube2Reddit created by The BenevolentJoker for Miniverse + Seniorage Circus: Pyreswap. If you would like to support the original creator of this script, you may send donations via crypto to the following addresses:")
     donation_addresses = {
         "BTC": "3NuS3dgmAW47pRE3aPYMXFMjaAVKtLgoFd",
         "ETH": "0x56FEf6ddC7E25522C4dfE6CC",
